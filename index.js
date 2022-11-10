@@ -25,9 +25,17 @@ async function run() {
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = serviceCollection.find(query)
-            const services = await cursor.limit(3).toArray();
+            const services = await cursor.toArray();
             res.send(services);
         });
+
+        app.post('/services', async (req, res) => {
+            const services = req.body;
+            const result = await serviceCollection.insertOne(services);
+            res.send(result);
+        });
+
+
 
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
